@@ -130,9 +130,16 @@ drm() {
 alias drmall='docker stop $(dpsa --quiet) --time 5 && docker rm $(dpsa --quiet)'
 
 
-# Remove all of the stopped containers
-alias dclean='docker rm $(dpsa --filter status=exited --quiet)'
+# Remove all of the containers which Exited/Created status
+dclean() {
+    container=$(dpsa --filter "status=exited" --filter "status=created" --quiet)
 
+    if [ "$container" = "" ]; then
+        return 0
+    fi
+
+    docker rm $container
+}
 
 # Remove all images
 #dri() { docker rmi $(docker images --quiet); }
