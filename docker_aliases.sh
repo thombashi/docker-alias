@@ -137,7 +137,12 @@ dstop() {
 drm() {
     local container_id
 
-    container_id=$(did "$1" | tr "\n" " ") && docker stop $container_id && docker rm $container_id;
+    container_id=$(did "$1" 2> /dev/null)
+    if [ "$?" = "0" ]; then
+        docker stop $($container_id | tr "\n" " ")
+    fi
+
+    docker rm $1
 }
 
 # Stop and remove all of the containers
