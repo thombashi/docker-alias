@@ -17,6 +17,20 @@ alias dimages="docker images"
 # Get container IP address
 alias dip="docker inspect --format '{{ .NetworkSettings.IPAddress }}'"
 
+# ping to a container
+dping() {
+    local container=$1
+    local return_code
+
+    container_id=$(did "$1" 2> /dev/null)
+    return_code=$?
+    if [ "$return_code" != "0" ]; then
+        echo "Usage: ${FUNCNAME[0]} CONTAINER_ID_OR_NAME " 1>&2
+        return $return_code
+    fi
+
+    ping "$(dip $container_id)"
+}
 
 alias drun="docker run"
 
