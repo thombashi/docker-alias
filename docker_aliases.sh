@@ -5,6 +5,9 @@
 # Get latest container ID
 alias dl="docker ps -l --quiet"
 
+# Get container logs
+alias dlogs="docker logs"
+
 # Get container process
 alias dps="docker ps"
 
@@ -16,6 +19,9 @@ alias dimages="docker images"
 
 # Get container IP address
 alias dip="docker inspect --format '{{ .NetworkSettings.IPAddress }}'"
+
+# Get container process ID
+alias dpid="docker inspect --format '{{ .State.Pid }}'"
 
 # ping to a container
 dping() {
