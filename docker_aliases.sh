@@ -2,6 +2,14 @@
 # Docker alias and function
 # ------------------------------------
 
+if type fzf > /dev/null 2>&1 ; then
+    SELECTOR=\fzf
+elif type peco > /dev/null 2>&1 ; then
+    SELECTOR=\peco
+else
+    SELECTOR=
+fi
+
 # Get latest container ID
 alias dl="docker ps -l --quiet"
 
@@ -125,6 +133,24 @@ didtoname() {
     local container_id
 
     container_id=$(dida "$1") && dpsa --filter id="$container_id" --format "{{ .Names }}"
+}
+
+sel-dimg-tag() {
+    if ! type "$SELECTOR" > /dev/null 2>&1; then
+        echo "${FUNCNAME[0]}: require fzf|peco" 1>&2
+        return 1
+    fi
+
+    docker images | $SELECTOR | awk '{print $1,$2}' OFS=:
+}
+
+sel-dimg-id() {
+    if ! type "$SELECTOR" > /dev/null 2>&1; then
+        echo "${FUNCNAME[0]}: require fzf|peco" 1>&2
+        return 1
+    fi
+
+    docker images | $SELECTOR | awk '{print $3}'
 }
 
 # Stop containers
