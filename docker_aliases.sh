@@ -165,6 +165,7 @@ dclean() {
         return 0
     fi
 
+    # shellcheck disable=SC2086
     docker rm $container
 }
 
