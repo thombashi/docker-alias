@@ -157,6 +157,8 @@ alias drmall='docker stop $(dpsa --quiet) --time 5 && docker rm $(dpsa --quiet)'
 
 # Remove all of the containers which Exited/Created status
 dclean() {
+    local container
+
     container=$(dpsa --filter "status=exited" --filter "status=created" --quiet)
 
     if [ "$container" = "" ]; then
