@@ -169,15 +169,33 @@ dstop() {
 }
 
 # Stop and remove container(s)
-drm() {
+drmi() {
+    local image_id=$1
     local container_id
 
-    container_id=$(did "$1" 2> /dev/null)
-    if [ "$?" = "0" ]; then
-        docker stop $($container_id | tr "\n" " ")
+    if [ "$image_id" = "" ] && [ "$SELECTOR" != "" ]; then
+        image_id=$(sel-dimg-id)
     fi
 
-    docker rm $1
+    if [ "$image_id" = "" ]; then
+        return 0
+    fi
+
+    # stop running containers which created by the selected docker image
+    container_id=$(dps --quiet --filter ancestor="$image_id" | tr '\n' ' ')
+    if [ "$container_id" != "" ]; then
+        # shellcheck disable=SC2086
+        docker stop $container_id
+    fi
+
+    container_id=$(dpsa --quiet --filter "status=exited" --filter ancestor="$image_id")
+    if [ "$container_id" != "" ]; then
+        # shellcheck disable=SC2086
+        docker rm $container_id
+    fi
+
+    # shellcheck disable=SC2086
+    docker rmi $image_id
 }
 
 # Stop and remove all of the containers
