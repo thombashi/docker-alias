@@ -157,9 +157,12 @@ sel-dimg-id() {
 dstop() {
     local container=$1
 
+    if [ "$container" = "" ] && [ "$SELECTOR" != "" ]; then
+        container=$(dps | $SELECTOR | awk '{print $1}')
+    fi
+
     if [ "$container" = "" ]; then
-        echo "Usage: ${FUNCNAME[0]} CONTAINER_ID_OR_NAME " 1>&2
-        return 22
+        return 0
     fi
 
     docker stop $(did "$container" | tr '\n' ' ')
