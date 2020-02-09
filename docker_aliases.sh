@@ -206,14 +206,18 @@ alias drmall='docker stop $(dpsa --quiet) --time 5 && docker rm $(dpsa --quiet)'
 dclean() {
     local container
 
+    # find not executed docker containers
     container=$(dpsa --filter "status=exited" --filter "status=created" --quiet)
 
-    if [ "$container" = "" ]; then
-        return 0
+    if [ "$container" != "" ]; then
+        # shellcheck disable=SC2086
+        docker rm $container
     fi
 
+    dprecated_images=$(docker images | \grep '<none>' | awk '{print $3}')
+
     # shellcheck disable=SC2086
-    docker rm $container
+    docker rmi $dprecated_images
 }
 
 # Remove all images
