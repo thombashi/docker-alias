@@ -2,9 +2,9 @@
 # Docker alias and function
 # ------------------------------------
 
-if type fzf > /dev/null 2>&1 ; then
+if command -v fzf > /dev/null 2>&1 ; then
     SELECTOR=\fzf
-elif type peco > /dev/null 2>&1 ; then
+elif command -v peco > /dev/null 2>&1 ; then
     SELECTOR=\peco
 else
     SELECTOR=
@@ -136,7 +136,7 @@ didtoname() {
 }
 
 sel-dimg-tag() {
-    if ! type "$SELECTOR" > /dev/null 2>&1; then
+    if ! command -v "$SELECTOR" > /dev/null 2>&1; then
         echo "${FUNCNAME[0]}: require fzf|peco" 1>&2
         return 1
     fi
@@ -145,7 +145,7 @@ sel-dimg-tag() {
 }
 
 sel-dimg-id() {
-    if ! type "$SELECTOR" > /dev/null 2>&1; then
+    if ! command -v "$SELECTOR" > /dev/null 2>&1; then
         echo "${FUNCNAME[0]}: require fzf|peco" 1>&2
         return 1
     fi
