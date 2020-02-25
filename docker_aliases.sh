@@ -216,8 +216,10 @@ dclean() {
 
     dprecated_images=$(docker images | \grep '<none>' | awk '{print $3}')
 
-    # shellcheck disable=SC2086
-    docker rmi $dprecated_images
+    if [ "$dprecated_images" != "" ]; then
+        # shellcheck disable=SC2086
+        docker rmi $dprecated_images
+    fi
 }
 
 # Remove all images
