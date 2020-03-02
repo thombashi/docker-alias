@@ -1,6 +1,7 @@
-# ------------------------------------
-# Docker alias and function
-# ------------------------------------
+#----------------------------------------------
+# Docker alias and functions
+#   https://github.com/thombashi/docker-alias
+#----------------------------------------------
 
 if command -v fzf > /dev/null 2>&1 ; then
     SELECTOR=\fzf
