@@ -53,8 +53,11 @@ alias drun="docker run"
 alias drund="docker run --detach --tty"
 
 # Run interactive container. e.g. $dki base /bin/bash
-alias drunit="docker run --interactive --tty"
 #alias druni="docker run --interactive --tty -P"
+
+drunit() {
+    docker run -it --rm "$(select-dimg-tag)" ${1:-/bin/bash}
+}
 
 # Execute interactive container, e.g., $dex base /bin/bash
 alias dexec="docker exec --interactive --tty"
