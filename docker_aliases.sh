@@ -136,7 +136,7 @@ didtoname() {
     container_id=$(dida "$1") && dpsa --filter id="$container_id" --format "{{ .Names }}"
 }
 
-sel-dimg-tag() {
+select-dimg-tag() {
     if ! command -v "$SELECTOR" > /dev/null 2>&1; then
         echo "${FUNCNAME[0]}: require fzf|peco" 1>&2
         return 1
@@ -145,7 +145,7 @@ sel-dimg-tag() {
     docker images | $SELECTOR | awk '{print $1,$2}' OFS=:
 }
 
-sel-dimg-id() {
+select-dimg-id() {
     if ! command -v "$SELECTOR" > /dev/null 2>&1; then
         echo "${FUNCNAME[0]}: require fzf|peco" 1>&2
         return 1
