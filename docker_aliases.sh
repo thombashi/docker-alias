@@ -11,6 +11,24 @@ else
     SELECTOR=
 fi
 
+select-dimg-tag() {
+    if ! command -v "$SELECTOR" > /dev/null 2>&1; then
+        echo "${FUNCNAME[0]}: require fzf|peco" 1>&2
+        return 1
+    fi
+
+    docker images | $SELECTOR | awk '{print $1,$2}' OFS=:
+}
+
+select-dimg-id() {
+    if ! command -v "$SELECTOR" > /dev/null 2>&1; then
+        echo "${FUNCNAME[0]}: require fzf|peco" 1>&2
+        return 1
+    fi
+
+    docker images | $SELECTOR | awk '{print $3}'
+}
+
 # Get latest container ID
 alias dl="docker ps -l --quiet"
 
@@ -137,24 +155,6 @@ didtoname() {
     local container_id
 
     container_id=$(dida "$1") && dpsa --filter id="$container_id" --format "{{ .Names }}"
-}
-
-select-dimg-tag() {
-    if ! command -v "$SELECTOR" > /dev/null 2>&1; then
-        echo "${FUNCNAME[0]}: require fzf|peco" 1>&2
-        return 1
-    fi
-
-    docker images | $SELECTOR | awk '{print $1,$2}' OFS=:
-}
-
-select-dimg-id() {
-    if ! command -v "$SELECTOR" > /dev/null 2>&1; then
-        echo "${FUNCNAME[0]}: require fzf|peco" 1>&2
-        return 1
-    fi
-
-    docker images | $SELECTOR | awk '{print $3}'
 }
 
 # Stop containers
