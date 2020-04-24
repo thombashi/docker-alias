@@ -178,7 +178,7 @@ drmi() {
     local container_id
 
     if [ "$image_id" = "" ] && [ "$SELECTOR" != "" ]; then
-        image_id=$(sel-dimg-id)
+        image_id=$(select-dimg-id)
     fi
 
     if [ "$image_id" = "" ]; then
