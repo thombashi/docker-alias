@@ -211,7 +211,7 @@ dclean() {
     local container
 
     # find not executed docker containers
-    container=$(dpsa --filter "status=exited" --filter "status=created" --quiet)
+    container=$(docker ps --all --filter "status=exited" --filter "status=created" --quiet)
 
     if [ "$container" != "" ]; then
         # shellcheck disable=SC2086
